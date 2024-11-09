@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de Inversiones</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Predicción de Finalización de Inversiones</h1>
+    <form action="/predict" method="post">
+        <label for="duracion_prevista">Duración Prevista (años):</label>
+        <input type="number" step="0.01" name="duracion_prevista" required><br><br>
+
+        <label for="duracion_real">Duración Real (años):</label>
+        <input type="number" step="0.01" name="duracion_real" required><br><br>
+
+        <label for="total_gasto">Total previsto de Gasto ($):</label>
+        <!-- Cambiado para permitir cualquier cantidad y decimales -->
+        <input type="number" name="total_gasto" min="0" placeholder="Ej: 1, 1000000, etc." required><br><br>
+
+        <label for="centro">Centro:</label>
+        <select name="centro" required>
+            {% for centro in categorias_centro %}
+                <option value="{{ centro }}">{{ centro }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="distrito">Distrito:</label>
+        <select name="distrito" required>
+            {% for distrito in categorias_distrito %}
+                <option value="{{ distrito }}">{{ distrito }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="linea_inversion">Línea de Inversión:</label>
+        <select name="linea_inversion" required>
+            {% for linea in categorias_linea_inversion %}
+                <option value="{{ linea }}">{{ linea }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Predecir">
+    </form>
+
+    {% if prediction_text %}
+        <h2>{{ prediction_text }}</h2>
+    {% endif %}
+</body>
+</html>
